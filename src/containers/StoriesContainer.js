@@ -5,9 +5,11 @@ import {
     GlobalStyle,
     StoriesContainerWrapper,
   } from '../styles/StoriesContainerStyles';
+  import { useInfiniteScroll } from '../hooks/useinfiniteScroll';
 
 function StoriesContainer() {
 
+    const { count } = useInfiniteScroll();
     const [storyIds, setStoryIds] = useState([])
 
   useEffect(() => {
@@ -19,7 +21,9 @@ function StoriesContainer() {
             <GlobalStyle />
             <StoriesContainerWrapper data-test-id="stories-container">
             <h1>Hacker News Stories</h1>
-            {storyIds && storyIds.map(id => <Story key={id} id={id}/>)}
+            {storyIds.slice(0, count).map(storyId => (
+          <Story key={storyId} id={storyId} />
+        ))}
             </StoriesContainerWrapper>
         </>
     )
